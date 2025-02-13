@@ -1,0 +1,338 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs} % Cursive font
+\usepackage{graphicx}
+\usepackage{ragged2e}
+\usepackage{fancyhdr}
+\usepackage{nameref}
+\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{soul}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, linkcolor=black, citecolor=blue, urlcolor=blue]{hyperref}
+\usepackage{multicol}
+\usepackage[spanish]{babel}
+
+% to set spacing between lines
+\usepackage{setspace}
+
+% to rotate content 90 degrees
+\usepackage{lscape}
+
+% defining command for the curly arrow
+\newcommand{\curly}{\mathrel{\leadsto}}
+
+\usepackage{ulem}    % Para tachar texto
+
+\usepackage{mathtools}
+\usepackage{xparse} \DeclarePairedDelimiterX{\Iintv}[1]{\llbracket}{\rrbracket}{\iintvargs{#1}}
+\NewDocumentCommand{\iintvargs}{>{\SplitArgument{1}{,}}m}
+{\iintvargsaux#1}
+\NewDocumentCommand{\iintvargsaux}{mm} {#1\mkern1.5mu,\mkern1.5mu#2}
+
+\makeatletter
+\newcommand*{\currentname}{\@currentlabelname}
+\makeatother
+
+\usepackage[a4paper,hmargin=1in, vmargin=1.4in,footskip=0.25in]{geometry}
+
+\lstset{
+    basicstyle=\ttfamily, % Cambia esta línea para modificar la fuente
+    % Aquí puedes agregar otras configuraciones de listings
+}
+
+%\addtolength{\hoffset}{-1cm}
+%\addtolength{\hoffset}{-2.5cm}
+%\addtolength{\voffset}{-2.5cm}
+\addtolength{\textwidth}{0.2cm}
+%\addtolength{\textheight}{2cm}
+\setlength{\parskip}{8pt}
+\setlength{\parindent}{0.5cm}
+\setlength{\headheight}{13.6pt}
+\linespread{1.25}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Caporalini, Joaquín}
+\lhead{Seguridad informática}
+\rfoot{\vspace{1cm} \thepage}
+
+\newcommand{\comentario}[1]{}
+
+\renewcommand*\contentsname{\LARGE Índice}
+
+\begin{document}
+\thispagestyle{plain}
+\begin{spacing}{2.0}
+\noindent\textbf{\Huge 
+    Practica 1:\\ Introducción a la\\ seguridad informática\\ y la confidencialidad
+}
+\end{spacing}
+
+\noindent{\huge Entrega de ejercicios seleccionados de la práctica}
+\begin{multicols}{2}
+    \begin{flushleft}
+        De \textit{Joaquín Caporalini}\\ para el curso \textit{Seguiridad informática}\\
+        Dictado por \textit{Cristiá, Maximiliano} y \textit{Hernández, Alejandro}
+    \end{flushleft}
+    \columnbreak
+    \begin{flushright}
+        \today
+    \end{flushright}
+\end{multicols}
+
+
+\section*{2. Uso de e-mails corporativos}
+\subsection*{Enunciado}
+
+Las empresas usualmente restringen a sus empleados el uso de e-mails para fines laborales, pero permiten un mínimo uso para razones personales.
+
+\begin{enumerate}
+    \item Piense cómo podría una empresa detectar un uso excesivo de e-mails personales, sin tener que leerlos.
+    \item Intuitivamente, parece razonable evitar TODO uso personal de e-mail. Explicar porque la mayoría de las empresas no hacen esto.
+\end{enumerate}
+
+\subsection*{Propuesta}
+
+Es posible implementar tácticas para intentar mitigar el uso de e-mails corporativos para uso personal sin leer el contenido del mail enviado. Los correros van acompañados de metadata que es utilizable para diseñar filtros. Algunas de las técnicas a implementar:
+
+\begin{itemize}
+    \item Comparar el proveedor de mail y el destinatario contra una base de datos de clientes o correos bloqueados, un ejemplo de correo bloqueado podría ser el de la competencia.
+    \item Filtrado por hora de envío y la ip que hizo la petición de enviar el e-mail al servidor de correo.
+    \item Medir la cantidad de interacciones entre el usuario y los correos de la empresa.
+    \item Utilizar sistemas de predicción estadísticos como los utilizados para mitigar los fraudes con tarjetas o el correo SPAM.
+    \item Entrenar modelos de IA para clasificar paquetes con toda la metadata disponible para los mails de la empresa.
+    \item 
+\end{itemize}
+
+Las desventajas de implementar sistemas de este tipo son visibles en algunos de los campos que se nombraron (y por eso no se usan cada vez menos con tarjetas y en el marcado de mails como SPAM). Marcar e-mails como \textit{personales} y evitar su envío o recepción puede conllevar en la \textbf{perdidas} de nuevas ventas o la perdida de información importante y urgente. Además, la generación de falsos positivos suele llevar a una baja de la \textbf{usabilidad} por lo que los empleados terminarían usando otros medios para las comunicaciones y no las direcciones de la empresa. La implementación de estos filtros tiene \textbf{costos} aparejados que también deben ser tenidos en cuenta.
+
+\section*{7. Compromiso de confidencialidad e integridad}
+\subsection*{Enunciado}
+Dé un ejemplo de una situación en la cual un compromiso de confidencialidad conduce a un compromiso de integridad.
+\subsection*{Propuesta}
+Supongamos el caso hipotético en el cual un gerente deja sus credenciales de acceso expuestas físicamente o digitalmente, puesto que son \textit{muy complicadas de recordad} se pegó una nota con el \textbf{usuario} y la \textbf{contraseña}(que se asume secreta) en su escritorio. Dentro de las capacidades que tiene el gerente es la de modificar las ordenes de trabajo y el manejo de caja, además de poder ver los perfiles de los clientes y modificarlos.
+
+Si dicho usuario y contraseña son comprometidos, perdiendo su estado de \textbf{confidenciales}, se podría modificar la información sensible al funcionamiento de la organización, dando un fallo de \textbf{integridad}.
+
+
+\section*{15. Programar en Haskell}
+\subsection*{Enunciado}
+
+\textbf{a)} Implementar en Haskell una función:
+    
+\begin{lstlisting}
+grant :: User -> File -> Access -> Boole
+grnat user file bole = undefine
+\end{lstlisting}
+
+\noindent Que, dado un usuario (sujeto), un archivo (objeto) y un tipo de acceso (lectura, escritura), devuelva un booleano indicando si se puede llevar adelante el acceso, siguiendo la política del modelo Bell-LaPadula.
+
+\textbf{OBS}: \textit{puede agregar parámetro(s) adicional(es) con la información necesaria para poder devolver lo que corresponda.}
+
+\textbf{b)} Si no lo hizo en el inciso anterior, modifique la función de manera que  mantenga el estado de archivos accedidos (abiertos), para tener en cuenta también la propiedad \textbf{*}.
+
+\subsection*{Propuesta}
+
+Para resolver ambos enunciados se propone la siguiente implementación copiando la especificación formal hecha en \textbf{Z} en la teoría.
+
+Para \texttt{leer} nos debemos de fijar:
+\begin{enumerate}
+    \item Obtenemos los archivos abiertos para el \texttt{user}.
+    \item Buscamos los permisos para \texttt{user}. 
+    \item Buscamos los permisos para \texttt{file}. 
+    \item Hacemos las verificaciones de la especificación:
+        \begin{itemize}
+            \item El \texttt{user} es del sistema.
+            \item El \texttt{file} es del sistema.
+            \item no está el El \texttt{file} abierto ya para el \texttt{user} en ese modo.
+            \item Se poseen los permisos suficientes
+            \item Se verifica la condición \textbf{*}. 
+        \end{itemize}
+\end{enumerate}
+
+\begin{lstlisting}
+grant :: SecState -> User -> File -> Access -> Bool
+grant (S sc oobj) user file RM
+  = let oobju = findWithDefault [] user oobj
+        scu = sc ! user
+        scf = sc ! file 
+    in user `member` sc && file `member` sc &&
+    notElem file [rf | (rf, acc) <- oobju, acc == RM] &&
+    scu `dominates` scf &&
+    and [(sc ! wf) `dominates` scf | (wf, acc) <- oobju, acc == WM]
+\end{lstlisting}
+
+Para \texttt{Escribir} nos debemos de fijar:
+\begin{enumerate}
+    \item Obtenemos los archivos abiertos para el \texttt{user}.
+    \item Buscamos los permisos para \texttt{user}. 
+    \item Buscamos los permisos para \texttt{file}. 
+    \item Hacemos las verificaciones de la especificación:
+        \begin{itemize}
+            \item El \texttt{user} es del sistema.
+            \item El \texttt{file} es del sistema.
+            \item no está el El \texttt{file} abierto ya para el \texttt{user} en ese modo.
+            \item Se poseen los permisos suficientes
+            \item Se verifica la condición \textbf{*}. 
+        \end{itemize}
+\end{enumerate}
+
+\noindent Para el caso de las escrituras
+\begin{lstlisting}
+grant (S sc oobj) user file WM
+  = let oobju = findWithDefault [] user oobj
+        scu = sc ! user
+        scf = sc ! file 
+    in user `member` sc && file `member` sc &&
+    notElem file [wf | (wf, acc) <- oobju, acc == WM] &&
+    scu == scf &&
+    and [scf `dominates` (sc ! rf) | (rf, acc) <- oobju, acc == RM]    
+\end{lstlisting}
+
+Sindo así que los casos son muy similares.
+
+\section*{21.3. Flujo indebido}
+\subsection*{Enunciado}
+
+Determinar si hay flujo indebido de información en cada uno de estos programas.
+
+\begin{lstlisting}
+-- Prog 3
+x = readH();
+writeL("Loading...");
+while (x-- > 100)
+    writeL(".");
+writeH(x);
+\end{lstlisting}
+
+\subsection*{Propuesta}
+
+En este ejemplo \textbf{hay} flujo indebido de información. El contenido de la variable \texttt{x} en si mismo no es \textit{filtrado}, pero si su uso, rompiendo la idea de que los usuarios de \textit{bajo} nivel no deben de ser interferidos por las acciones de nivel superior.
+
+\section*{22.3. }
+\subsection*{Enunciado}
+Para los programas del ejercicio anterior, explique cómo funcionaría la ejecución bajo el sistema de seguridad por multi-ejecución.
+\subsection*{Propuesta}
+
+Tomemos la traza del \textbf{programa 3} (el utilizado en el ejercicio anterior)
+
+\begin{enumerate}
+    \item El programa seria iniciado con clasificación \textbf{L}.
+    \item Se ejecutan sentencias de ese nivel hasta llegar a la primera linea mostrada.
+    \item Al intentar ejecutar
+\begin{lstlisting}
+x = readH();
+\end{lstlisting}
+    el programa realiza un \texttt{fork()}. En proceso padre continua con permisos \textbf{L} y el nuevo sigue su ejecución con permisos \textbf{H}. 
+    \item Según el nivel pararan distintos comportamientos para las sentencias
+\begin{lstlisting}
+writeL("Loading...");
+while (x-- > 100)
+    writeL(".");
+\end{lstlisting}
+    \begin{itemize}
+        \item \textbf{L}: El programa imprimirá los mensajes.
+        \item \textbf{H}: El programa no podrá imprimir nada porque lo haría en un nivel inferior.
+    \end{itemize}
+    \item Llega el momento de ejecutar la ultima sentencia 
+\begin{lstlisting}
+writeH(x);
+\end{lstlisting}
+    \begin{itemize}
+        \item \textbf{L}: este programa no vera ninguna modificación.
+        \item \textbf{H}: El programa escribe el valor de la variable puesto que estamos en el entorno \textbf{H} y se hace en un lugar clasificado como \textbf{H}.
+    \end{itemize}
+\end{enumerate}
+
+
+\section*{23.4. }
+\subsection*{Enunciado}
+
+Resuelva los desafíos propuestos en el siguiente link: \url{http://ifc-challenge.appspot.com/} Para los que pueda resolver, explique las conclusiones a las que arribe, por ejemplo:
+
+\begin{itemize}
+    \item Qué tipo de ataque logró llevar adelante?
+    \item Qué limitación tiene el sistema de reglas?
+    \item Qué cambio habría que hacerle para impedir el ataque?
+\end{itemize}
+
+\subsection*{Propuesta}
+
+El ejercicio que elegí fue el 6 donde el ataque venia de la mano de \texttt{try <stm> catch <stm> } y \texttt{throw;}.
+
+Pude reproducir el ataque de la siguiente forma:
+
+\begin{lstlisting}
+l = true;
+try{
+  if (h) throw;
+  l = false;
+} catch
+  skip;
+\end{lstlisting}
+
+En este ataque a la confidencialidad una variable de nivel de seguridades superior \texttt{h} es vulnerada puesto qeu su valor es copiado en una variable con nivel de seguridad inferior \texttt{l}. De esta forma podríamos filtrar secretos para desclasificarlos. Una forma de evitar este ataque es que si se accede a la lectura de variables seguras no se permita escribir en esos entornos otras variables con niveles inferiores, elevando así a \textit{high} los permisos del \textbf{try} y \textbf{catch}
+
+\section*{A. Apendice de código}
+
+A continuación el código completo para el ejercio 15.
+
+\begin{lstlisting}
+import Data.Map
+
+type Cat = String
+type Obj = Int
+type SL = Int
+type SC = (SL, [Cat])
+
+type User = Obj
+type File = Obj
+
+dominates :: SC -> SC -> Bool
+dominates (sl1, scat1) (sl2, scat2) = sl2 <= sl1 && scat2 `subset` scat1
+  where
+    subset list1 list2 = all (`elem` list2) list1
+
+data Access = RM | WM deriving (Show, Eq)
+
+data SecState = S {
+  sc :: Map Obj SC,
+  oobj :: Map User [(File, Access)]
+}
+
+grant :: SecState -> User -> File -> Access -> Bool
+
+grant (S sc oobj) user file RM
+  = let oobju = findWithDefault [] user oobj in
+        scu = sc ! user
+        scf = sc ! file 
+    in user `member` sc && file `member` sc &&
+    notElem file [rf | (rf, acc) <- oobju, acc == RM] &&
+    scu `dominates` scf &&
+    and [(sc ! wf) `dominates` scf | (wf, acc) <- oobju, acc == WM]
+
+grant (S sc oobj) user file WM
+  = let oobju = findWithDefault [] user oobj in
+        scu = sc ! user
+        scf = sc ! file 
+    in user `member` sc && file `member` sc &&
+    notElem file [wf | (wf, acc) <- oobju, acc == WM] &&
+    scu == scf &&
+    and [scf `dominates` (sc ! rf) | (rf, acc) <- oobju, acc == RM]
+\end{lstlisting}
+
+%%\section*{}
+%%\subsection*{Enunciado}
+%%\subsection*{Propuesta}
+
+% \bibliographystyle{alpha}
+% \bibliography{referencias}
+
+\end{document}
