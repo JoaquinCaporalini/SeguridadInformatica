@@ -1,0 +1,52 @@
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.acn
+*.acr
+*.alg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.glg
+*.glo
+*.gls
+*.ist
+*.lof
+*.lol
+*.lot
+*.maf
+*.mtc
+*.mtc0
+*.nav
+*.nlo
+*.nls
+*.out
+*.snm
+*.synctex.gz
+*.tdo
+*.toc
+*.vrb
+*.xdy
+
+# LaTeX document files
+*.ps
+*.dvi
+
+# LaTeX editor files
+*.lyx
+*.tex~
+
+# Other LaTeX-related files
+*.bbl
+*.blg
+*.run.xml
