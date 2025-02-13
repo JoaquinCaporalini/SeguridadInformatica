@@ -31,35 +31,35 @@ Elegí los ejercicios para entregar: 2, 7, 15, 21.3, 22.3 y 22.4. Podes ver la e
 ### Trabajo práctico Nro 2
 BO, SQL, PCC, Criptografía, y Protocolos
 #### Enunciado
-```
-Más abajo voy a definir 5 temas (correspondientes a las temáticas de BO, SQL, PCC, Criptografía, y Protocolos), cada uno de ellos en "modo básico" y en "modo avanzado”.
-Cada alumno/pareja tiene que optar por 2 alternativas:
-Opción 1: Elegir 3 temas diferentes, y entregar cada uno en modo básico.
-Opción 2: Elegir 2 temas diferentes, y entregarlos en modo avanzado.
-La restricción es que, entre los temas elegidos (ya sean 3 o 2 temas) tiene que haber sí o sí al menos 1 tema del conjunto {BO, SQL, PCC} y al menos 1 tema del conjunto {Criptografía, Protocolos}.
 
-Los temas y modos:
+> Más abajo voy a definir 5 temas (correspondientes a las temáticas de BO, SQL, PCC, Criptografía, y Protocolos), cada uno de ellos en "modo básico" y en "modo avanzado”.
+> Cada alumno/pareja tiene que optar por 2 alternativas:
+> Opción 1: Elegir 3 temas diferentes, y entregar cada uno en modo básico.
+> Opción 2: Elegir 2 temas diferentes, y entregarlos en modo avanzado.
+> La restricción es que, entre los temas elegidos (ya sean 3 o 2 temas) tiene que haber sí o sí al menos 1 tema del conjunto {BO, SQL, PCC} y al menos 1 tema del conjunto {Criptografía, Protocolos}.
+> 
+> Los temas y modos:
+> 
+> Tema BO:
+> - Modo básico: hasta la Sección "2.4 Task 2: Exploiting the Vulnerability" completa inclusive del pdf de Description.
+> - Modo avanzado: el modo básico, y además Sección 2.5 o Sección 2.6 (a elección de cada alumno/pareja).
+> 
+> Tema SQL:
+> - Modo básico: hasta la Sección "3.2 Task 2: SQL Injection Attack on SELECT Statement" completa inclusive del pdf de Description.
+> - Modo avanzado: el modo básico, y además Sección 3.3 o Sección 3.4 (a elección de cada alumno/pareja).
+> 
+> Tema PCC: (práctica de Proof-Carrying Code)
+> - Modo básico: punto 2.2.1 completo (partes A, B y C).
+> - Modo avanzado: el modo básico, y además punto 2.3.
+> 
+> Tema Criptografía: (plancha de ejercicios de la práctica 3 Criptografía y Protocolos)
+> - Modo básico: un ejercicio del conjunto {1, 2} y un ejercicio del conjunto {3, 6}.
+> - Modo avanzado: el modo básico, y además el otro ejercicio del conjunto {3, 6}, y también el ejercicio 4.
+> 
+> Tema Protocolos: (plancha de ejercicios de la práctica 3 Criptografía y Protocolos)
+> - Modo básico: el ejercicio 9 y un ejercicio del conjunto {8,11}.
+> - Modo avanzado: el modo básico, y además el otro ejercicio del conjunto {8,11}.
 
-Tema BO:
-- Modo básico: hasta la Sección "2.4 Task 2: Exploiting the Vulnerability" completa inclusive del pdf de Description.
-- Modo avanzado: el modo básico, y además Sección 2.5 o Sección 2.6 (a elección de cada alumno/pareja).
-
-Tema SQL:
-- Modo básico: hasta la Sección "3.2 Task 2: SQL Injection Attack on SELECT Statement" completa inclusive del pdf de Description.
-- Modo avanzado: el modo básico, y además Sección 3.3 o Sección 3.4 (a elección de cada alumno/pareja).
-
-Tema PCC: (práctica de Proof-Carrying Code)
-- Modo básico: punto 2.2.1 completo (partes A, B y C).
-- Modo avanzado: el modo básico, y además punto 2.3.
-
-Tema Criptografía: (plancha de ejercicios de la práctica 3 Criptografía y Protocolos)
-- Modo básico: un ejercicio del conjunto {1, 2} y un ejercicio del conjunto {3, 6}.
-- Modo avanzado: el modo básico, y además el otro ejercicio del conjunto {3, 6}, y también el ejercicio 4.
-
-Tema Protocolos: (plancha de ejercicios de la práctica 3 Criptografía y Protocolos)
-- Modo básico: el ejercicio 9 y un ejercicio del conjunto {8,11}.
-- Modo avanzado: el modo básico, y además el otro ejercicio del conjunto {8,11}.
-```
 #### Nuestra entrega
 
 Elegimos con @lushoBarlett 
