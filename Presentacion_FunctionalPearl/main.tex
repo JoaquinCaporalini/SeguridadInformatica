@@ -289,9 +289,13 @@ common_pwds :: Labeled H String ->
 
 \begin{frame}{Comentarios finales}
     \begin{itemize}
-        \item<1-> Las abstracciones que provee Haskell y, en general, los lenguajes funcionales, son muy amenas para enfrentarse a los desafíos de seguridad actuales.
+        \item<1-> Las abstracciones que provee Haskell y, en general, los lenguajes funcionales, son muy buenas para enfrentarse a los desafíos de seguridad actuales.
 
-        \item<2-> La correción de \textbf{MAC} depende de la seguridad de tipos y la encapsulación de módulos de Haskell. GHC incluye características y extensiones del lenguaje capaces de romper ambas características. Safe Haskell (Terei et al. 2012) es una extensión de GHC que identifica un subconjunto de Haskell que sigue la seguridad de tipos y la encapsulación de módulos. MAC utiliza Safe Haskell al compilar código no confiable.
+        \item<2-> La corrección de \textbf{MAC} depende de la seguridad de tipos y la encapsulación de módulos de Haskell. MAC utiliza Safe Haskell al compilar código no confiable.
+        
+        \item<3-> La descalcificación intencional no es tratada en este paper sin embargo existen varios enfoques.
+        
+        \item<4-> Para el ejemplo se uso un etiquetado de dos niveles. Se encontraron formas de usar el sistema de tipos cerrado de GHC para generar extensiones.
     \end{itemize}
 \end{frame}
 
