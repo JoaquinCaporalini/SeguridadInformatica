@@ -36,11 +36,11 @@ Facultad de Ciencias Exactas, Ingeniería y Agrimensura\\Universidad Nacional de
 \frame{
 \frametitle{Repaso: Como contruir un bloque de Bitcoin\footnote{Nakamoto, S. (2008) Bitcoin: A Peer-to-Peer Electronic Cash System.}}
 % Introducir la idea del proof of work
-Versión puramente electrónica de efectivo, sin tener que pasar por medio de una institución financiera.\newline
+Versión puramente electrónica de efectivo, sin tener que pasar por medio de una institución financiera.\newline\pause
 
 La solución al problema del doble gasto: Una red \textit{peer-to-peer} basada en el \textbf{consenso}.\newline\pause
 
-El consenso el logrado a través de un mecanismo de \textbf{prueba de trabajo}.\newline\pause
+El consenso el logrado a través de un mecanismo de \textbf{prueba de trabajo}.\newline
 
 \begin{figure}
     \centering
@@ -56,9 +56,9 @@ El consenso el logrado a través de un mecanismo de \textbf{prueba de trabajo}.\
 \end{block}
 \pause
 \begin{itemize}
-    \item Misma tasa de emisión de bloques.
     \item Mismo algoritmo de prueba de trabajo(\textit{PoW}).
-    \item Un bloque de la primaria y uno o ninguno de la secundaria.
+    \item Un bloque de la primaria y uno o ninguno de la secundaria.\pause
+    \item Misma tasa de emisión de bloques.
     \item Distintas dificultades de minado (\textit{target})
 \end{itemize}
 }
@@ -92,6 +92,19 @@ Para verificar que una transacción pertenece a un bloque, el nodo SPV solo nece
 }
 
 \frame{
+\frametitle{Jerarquia de targets}
+\begin{block}{Definición}
+    Es la dificultad definida para una PoW. Más alta implica menos dificultad.
+\end{block}\pause
+
+Resolver el problema de la cadena principal (mayor costo) y paralelamente la solución para la secundaria (menor costo).\newline
+
+Las soluciones para la red secundaria son 20 veces más comunes, son validos para ella pero no para la principal
+
+
+}
+
+\frame{
 \frametitle{Como se relacionan las cadenas}
 Lograr una relación bidireccional entre cadenas
 \begin{block}{RSK}
@@ -115,35 +128,22 @@ Lograr una relación bidireccional entre cadenas
 }
 
 \frame{
-\frametitle{Jerarquia de targets}
-\begin{block}{Definición}
-    Es la dificultad definida para una PoW. Más alta implica menos dificultad.
-\end{block}\pause
-
-Resolver el problema de la cadena principal (mayor costo) y paralelamente la solución para la secundaria (menor costo).\newline
-
-Las soluciones para la red secundaria son 20 veces más comunes, son validos para ella pero no para la principal
-
-
-}
-
-\frame{
 \frametitle{Etiquetas RSK}
 \begin{center}
     \texttt{RSKBLOCK:<blockHash>}
 \end{center}
-Puede estar: \it{codebase} ó \it{Output of the generation transaction}\newline\pause
+% Puede estar: \it{codebase} ó \it{Output of the generation transaction}\newline\pause
 
 \textbf{Consideraciones:}
 \begin{itemize}
     \item Luego de la etiqueta debe haber menos de 128bits.
-    \item No debería haber etiqueta en los bits libres.
-    \item Pueden aparecer por casualidad, ponerlas al final.
+    \item No debería haber etiqueta en los bits que no se procesen.
+    \item Pueden aparecer por casualidad.
     \begin{itemize}
-        \item codebase: No es un problema si está la etiqueta \texttt{ExtraNonce2}
+        \item No es un problema si está la etiqueta \texttt{ExtraNonce2}
     \end{itemize}
 \end{itemize}
-Por cuestiones de tamaño suelen estar en la codebase o entre los últimos 4 de la transacción. La segunda permite generar prueba SPV.
+% Por cuestiones de tamaño suelen estar en la codebase o entre los últimos 4 de la transacción. La segunda permite generar prueba SPV.
 }
 
 \frame{

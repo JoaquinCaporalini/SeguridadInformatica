@@ -88,7 +88,7 @@
     \frametitle{Un encargo para Alice...}
     \textbf{¿Qué debería hacer Alice?}\newline
 
-    Para proteger recursos no alcanza con listas negras (o blancas), sino de asegurar que la información fluye solo hacia los lugares adecuados.\newline
+    Para proteger recursos no alcanza con listas negras (o blancas), sino de asegurar que la {\textbf<2->{información fluye}} solo hacia los lugares adecuados.\newline
     \pause
 
     \begin{flushright}
@@ -99,16 +99,16 @@
 
 \begin{frame}
     \frametitle{Mandatory Access Control e Information-Flow Control}
+    Lo logra aplicando no interferencia\newline
+
+    Provienen de la investigación
     \begin{itemize}
-        \item Asocian datos con etiquetas de seguridad
-        para definir su nivel de confidencialidad.
-        \item Provienen de la investigación
-        \begin{itemize}
-            \item MAC: sistemas operativos
-            \item IFC: lenguajes de programación
-        \end{itemize}
+        \item MAC: sistemas operativos
+        \item IFC: lenguajes de programación
     \end{itemize}
-    La propuesta es aprovechar conceptos de lenguajes de programación para implementar mecanismos similares a MAC mediante la creación de una API monádica que protege confidencialidad estáticamente.
+    \hspace{1cm}
+
+    La propuesta es aprovechar \textbf{conceptos de lenguajes de programación} para implementar mecanismos similares a MAC mediante la creación de una \textbf{API monádica} que protege \textbf{confidencialidad estáticamente}.
 
 \end{frame}
 
@@ -124,7 +124,7 @@
 
 \begin{frame}
     \frametitle{Familia de mónadas MAC}
-    Encapsula acciones de IO y restringe su ejecución a situaciones donde la confidencialidad no se ve comprometida.\newline
+    Encapsula acciones de IO para que no revelen información\newline
 
     Está indexada por una etiqueta de seguridad indicando la sensibilidad de sus resultados monádicos.
 
@@ -144,13 +144,19 @@
                 \includegraphics[scale=0.7]{figure4.png}
             \end{center}
         \column{0.5\textwidth}
-        Los recursos etiquetados deben tener en cuenta el carácter de los datos, origen y destino. Permite llevar a problema lectura/escritura
+        Recursos etiquetados tienen en cuneta:
+        \begin{itemize}
+            \item Carácter de los datos
+            \item Origen
+            \item Destino
+        \end{itemize}
+        \pause Permite llevar a problema lectura/escritura
     \end{columns}
 \end{frame}
 
 \begin{frame}
     \frametitle{Lift de las acciones de IO (Mantener un secreto)}
-    Siguiendo los principios de \textit{no read-up} y \textit{no write-down} se extiende la TCB con funciones que elevan las acciones \textit{IO}.
+    Siguiendo los principios de \textit{no read-up} y \textit{no write-down} se extiende la TCB\footnote{Trusted Computing Base} con funciones que \textbf{elevan}\footnote{Función equivalente que trabaja en los términos de la mónada} las acciones \textit{IO}.
 
     \begin{center}
         \includegraphics[scale=0.7]{figure5.png}
@@ -160,11 +166,13 @@
 \begin{frame}
     \frametitle{Expresiones etiquetadas}
 
-    Posible etiquetado. Notar el sinónimo de tipo como abreviatura  
+    Posible etiquetado.
 
     \begin{center}
         \includegraphics[scale=0.8]{figure6.png}
     \end{center}
+
+    Notar el sinónimo de tipo como abreviatura  
 \end{frame}
 
 \begin{frame}[fragile]
@@ -198,7 +206,7 @@ common_pwds :: Labeled H String ->
         \includegraphics[scale=0.7]{figure9.png}
     \end{center}
 
-    Las excepciones se capturan en el mismo \textbf{tipo} de miembro de la familia donde fueron arrojadas.\newline\pause
+    %Las excepciones se capturan en el mismo \textbf{tipo} de miembro de la familia donde fueron arrojadas.\newline\pause
 
     \textbf{Pero, ¿qué pasa con las construcciones con $join^{MAC}$?}
     
@@ -229,11 +237,11 @@ common_pwds :: Labeled H String ->
 
 \subsection{El elefante (encubierto) en la habitación}
 \begin{frame}{El elefante (encubierto) en la habitación}
-    Existe un canal encubierto: la no terminación...\newline
+    Existe un canal encubierto: la \textbf{no terminación}...\newline
 
-    En un entorno secuencial, la manera más efectiva de explotar un canal encubierto de no-terminación es a través de fuerza bruta, por lo que no hay gran ancho de banda si el universo donde buscar es lo suficientemente grande. \newline
+    En un entorno secuencial, la manera más efectiva de explotar un canal encubierto de no-terminación es a través de \textbf{fuerza bruta}, por lo que no hay gran ancho de banda si el universo donde buscar es lo \textbf{suficientemente grande}. \newline
     
-    En ese caso se puede omitir el análisis de estos canales encubiertos.
+    En ese caso se puede omitir el análisis de estos canales encubiertos. (\textit{problema de la parada})
 
     \vspace{0.5cm}
     \pause
@@ -263,6 +271,8 @@ common_pwds :: Labeled H String ->
     \begin{center}
         \includegraphics[scale=0.7]{codigo_bob5.png}
     \end{center}
+
+    \texttt{loop} es una función que no termina
 \end{frame}
 
 \begin{frame}{Solución}
@@ -274,18 +284,18 @@ common_pwds :: Labeled H String ->
         \includegraphics[scale=0.8]{figure11.png}
     \end{center}
 
-    Aunque se haya removido $join^{MAC}$ se pueden combinar computaciones con las referencias seguras introducidas previamente.
+    Aunque se haya removido\footnote{Notar que queda un parecido con \textit{multi-ejecución segura}} $join^{MAC}$ se pueden combinar computaciones con las referencias seguras introducidas previamente.
 \end{frame}
 
-\begin{frame}{MVars (primitivas de sincronización)}
-    Se extiende \textbf{MAC} con \textit{MVars} ---una abstracción de sincronización muy utilizada en Haskell--- similar a como se hizo con referencias.
+% \begin{frame}{MVars (primitivas de sincronización)}
+%     Se extiende \textbf{MAC} con \textit{MVars} ---una abstracción de sincronización muy utilizada en Haskell--- similar a como se hizo con referencias.
     
-    \begin{center}
-        \includegraphics[scale=0.7]{figure12.png}
-    \end{center}
+%     \begin{center}
+%         \includegraphics[scale=0.7]{figure12.png}
+%     \end{center}
 
-    \textbf{TODAS} las acciones provocan el efecto secundario de lecto/escritura.
-\end{frame}
+%     \textbf{TODAS} las acciones provocan el efecto secundario de lecto/escritura.
+% \end{frame}
 
 \begin{frame}{Comentarios finales}
     \begin{itemize}
