@@ -22,13 +22,15 @@
     morekeywords = [4]{H}
 }
 
-    \usepackage{tikz}
+\usepackage{tikz}
 
 
 \usetheme{Madrid}
 \usecolortheme{default}
 
-\newcommand { \return } {\texttt{return} }
+\usepackage{xspace}
+\newcommand { \return } {\texttt{return}\xspace}
+
 \newcommand { \vs } {\vspace{0.5cm}}
 
 %Information to be included in the title page:
@@ -70,7 +72,7 @@
         \item<2-> Programación fuertemente tipada y validar longitudes.
         \item<2-> No utilizar funciones de biblioteca y diseñar de forma segura.
         \item<2-> Minimizar los puntos de error, capacitar al personal (y tenerlo).
-        \item<2-> verificar los retornos.
+        \item<2-> Verificar los retornos.
         \item<2-> \only<2-2>{Colocar la pila como no ejecutable y agregar canarios.} \only<3->{\textcolor{blue}{Colocar la pila como no ejecutable y agregar canarios.}}
     \end{itemize}
 \end{frame}
@@ -148,7 +150,7 @@
 
 
             \end{tikzpicture}
-            \caption{Estado de los registro para la pila e instrucciones antes de un \return}
+            \caption{Estado de los registro para la pila e instrucciones antes de un \return.}
         \end{figure}
 
     }
@@ -192,7 +194,7 @@
 
 
             \end{tikzpicture}
-            \caption{Estado de los registro para la pila e instrucciones después de un \return}
+            \caption{Estado de los registro para la pila e instrucciones después de un \return.}
         \end{figure}
     }
 \end{frame}
@@ -240,10 +242,10 @@
                 \node at (5.5,2.5) {IP};
                 \draw[->, thick] (7,2.5) -- (7.5,2.5) |- (8,1.5);
 
-                %AX
+                %BX
                 \draw[black, very thick] (4,1) rectangle (5,2);
                 \draw[black, very thick] (5,1) rectangle (7,2);
-                \node at (4.5,1.5) {ax};
+                \node at (4.5,1.5) {bx};
                 \node at (6,1.5)   {...};
 
                 %DX
@@ -261,12 +263,12 @@
                 \draw[blue , very thick] (8,4) rectangle (11,5);
                 \draw[purple, very thick] (8,1) rectangle (11,2);
                 
-                \node at (9.5,1.5) {\texttt{pop ax}};
-                \node at (9.5,0.5) {\texttt{jmp *ax}};
+                \node at (9.5,1.5) {\texttt{pop bx}};
+                \node at (9.5,0.5) {\texttt{jmp *bx}};
                 \node at (9.5,4.5) {\texttt{...}};
 
             \end{tikzpicture}
-            \caption{}
+            \caption{Ejecución del ``trampolín'': \texttt{pop} saca de la pila y coloca en \textbf{bx}}
         \end{figure}
 
     }
@@ -296,10 +298,10 @@
                 \node at (5.5,2.5) {IP};
                 \draw[->, thick] (7,2.5) -- (7.5,2.5) |- (8,0.5);
 
-                %AX
+                %BX
                 \draw[black, very thick] (4,1) rectangle (5,2);
                 \draw[black, very thick] (5,1) rectangle (7,2);
-                \node at (4.5,1.5) {ax};
+                \node at (4.5,1.5) {bx};
                 \node at (6,1.5)   {\textcolor{blue}{\texttt{dir}}};
 
                 %DX
@@ -317,12 +319,12 @@
                 \draw[blue , very thick] (8,4) rectangle (11,5);
                 \draw[purple, very thick] (8,1) rectangle (11,2);
                 
-                \node at (9.5,1.5) {\texttt{pop ax}};
-                \node at (9.5,0.5) {\texttt{jmp *ax}};
+                \node at (9.5,1.5) {\texttt{pop bx}};
+                \node at (9.5,0.5) {\texttt{jmp *bx}};
                 \node at (9.5,4.5) {\texttt{...}};
 
             \end{tikzpicture}
-            \caption{}
+            \caption{Ejecución del ``trampolín'': \texttt{jmp} salta a la dirección de \textbf{bx}}
         \end{figure}
 
     }
@@ -352,10 +354,10 @@
                 \node at (5.5,2.5) {IP};
                 \draw[->, thick] (7,2.5) -- (7.5,2.5) |- (8,4.5);
 
-                %AX
+                %BX
                 \draw[black, very thick] (4,1) rectangle (5,2);
                 \draw[black, very thick] (5,1) rectangle (7,2);
-                \node at (4.5,1.5) {ax};
+                \node at (4.5,1.5) {bx};
                 \node at (6,1.5)   {\textcolor{blue}{\texttt{dir}}};
 
                 %DX
@@ -373,44 +375,152 @@
                 \draw[blue , very thick] (8,4) rectangle (11,5);
                 \draw[purple, very thick] (8,1) rectangle (11,2);
                 
-                \node at (9.5,1.5) {\texttt{pop ax}};
-                \node at (9.5,0.5) {\texttt{jmp *ax}};
+                \node at (9.5,1.5) {\texttt{pop bx}};
+                \node at (9.5,0.5) {\texttt{jmp *bx}};
                 \node at (9.5,4.5) {\texttt{...}};
                 \node at (9.5,3.5) {\texttt{jmp *dx}};
 
             \end{tikzpicture}
-            \caption{}
+            \caption{Ejecución del código del \textit{gadget}. Debe terminar con un salto al trampolín.}
         \end{figure}
 
     }
 \end{frame}
 
 \begin{frame}
-    \frametitle{INTEL X86}
+    \frametitle{INTEL x86}
+    En este caso el conjunto de \textit{gadgets} proviene de \textbf{libc} y \textbf{libxul}. \\
+    
+    Que el compilador evite su aparición es complicado.\vs
+
+    Los \textit{gadgets} son 19: \texttt{load} (\texttt{immediate}), \texttt{move}, \texttt{store}, \texttt{add} (\texttt{immediate}), \texttt{subtract}, \texttt{negate}, \texttt{and} (\texttt{immediate}), \texttt{or} (\texttt{immediate}), \texttt{xor} (\texttt{immediate}), \textit{complement}, \texttt{branch unconditional}, \texttt{branch conditional}, \texttt{set less than} y \texttt{call}. 
 \end{frame}
 
 \begin{frame}
-    \frametitle{INTEL X86}
+    \frametitle{INTEL x86 (observaciones)}
+    \begin{itemize}
+        % \item 
+        \item Se busca que las operaciones actualicen valores en memoria.
+        \item  Las interacciones con memoria requieren registros intermedios, porque se usan 2 niveles de indirección.
+        \item Las ramas condicionales actualizan valores de memoria y no el registro de instrucciones.
+        \item La convención para hacer llamadas a funciones utilizada en el paper no es la actual en Linux.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{INTEL x86 (\textit{gadget})}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.2]{gadgetx86.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}
     \frametitle{ARM}
+
+    En ARM no tenemos algo como la convención de llamada en x86. El epílogo no funciona igual, hay 16 registros los cuales se pueden modificar directamente (incluido el de instrucciones).
+
+    \vs
+
+    La instrucción \texttt{bl} y \texttt{blx} son la que nos permiten los saltos pero solo \texttt{blx} permite saltar con direcciones en registros. Desde donde se salta se almacena en r14 (lr). 
+
 \end{frame}
 
 \begin{frame}
     \frametitle{ARM}
+    \begin{columns}
+        \column{0.6\textwidth}
+            \begin{figure}
+            \centering
+                \includegraphics[scale=0.2]{ideaARM.png}
+            \end{figure}
+        \column{0.4\textwidth}
+        \only<1>{
+            \begin{center}
+                ULB
+            \end{center}
+            
+            \texttt{adds} r6, \#4;\\
+            \texttt{ldr} r5, [r6, \#124];\\
+            \texttt{blx} r5;\\
+        }
+        \pause
+        \only<2>{
+            \begin{center}
+                \textcolor{blue}{Update }\textcolor{purple}{Load }\textcolor{brown}{Branch}
+            \end{center}
+            
+            \textcolor{blue}{\texttt{adds} r6, \#4;}\\
+            \textcolor{purple}{\texttt{ldr} r5, [r6, \#124];}\\
+            \textcolor{brown}{\texttt{blx} r5;}\\
+        }
+    \end{columns}
 \end{frame}
 
 \begin{frame}
-    \frametitle{ARM}
+    \frametitle{ARM (observaciones)}
+    \begin{itemize}
+        \item Las instrucciones deben terminar con \texttt{blx}.
+        \item Se construyeron los \textit{gargets} con \textbf{libc} y \textbf{libwebcore}
+        \item Se requieren 3 registros en lugar de 1.
+        \item Por limitaciones de la arquitectura hacen que manejar memoria sea más complejo.
+        \item La forma de realizar operaciones aritmético-lógicas es idéntica, igualmente los condicionales.
+        \item Este ataque no puede ser detectado por \textit{validadores de direcciones de retorno}\footnote{return address checker}. No se modifica la pila.
+    \end{itemize}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{ARM (\textit{gadget})}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=0.3]{gadgetARM.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}
     \frametitle{Ataques Concretos}
+    \only<1>{
+        \textbf{Linux Intel x86}
+        \begin{columns}
+        \column{0.5\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[scale=0.15]{LinuxIntel86.png}
+        \end{figure}
+        \column{0.5\textwidth}
+            Se dá un \textit{shellcode egg} a este programa con: 
+            \begin{itemize}
+                \item El programa (ROPWR).
+                \item Los datos (programa a ejecutar).
+                \item el catálogo de instrucciones (doble indirección).
+                \item Datos para pisar \texttt{foo}.
+            \end{itemize}
+        \end{columns}
+    }
+    \pause
+    \only<2>{
+        \textbf{Google Android ARM}
+        \begin{columns}
+        \column{0.5\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[scale=0.15]{GoogleAndroidARM.png}
+        \end{figure}
+        \column{0.5\textwidth}
+            Obtener una shell en el emulador para el desarrollador de android.\\
+            Se utiliza el mismo código que antes a traves de una interfaz de java para C.
+        \end{columns}
+    }
 \end{frame}
 
 \begin{frame}
     \frametitle{Conclusiones}
+    \begin{itemize}
+        \item Encontrar un trampolín basta para construir a su alrededor un conjunto de \textit{gargets}.
+        \item Esta nueva forma de programar es un problema grave de seguridad.
+        \item Las posibles mitigaciones pueden tener una gran penalidad.
+    \end{itemize}
 \end{frame}
 
 
