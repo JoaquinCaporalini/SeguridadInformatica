@@ -1,7 +1,7 @@
 \documentclass{beamer}
 \usepackage{lmodern}
 \usepackage{anyfontsize}
-\renewcommand{\normalsize}{\fontsize{14}{16}\selectfont}
+% \renewcommand{\normalsize}{\fontsize{14}{16}\selectfont}
 
 \usepackage{tikz}
 
@@ -63,49 +63,125 @@
     \frametitle{Inyección de Código}
     Una forma de tomar el control de un proceso es: aprovechar un desbordamiento de arreglo en la pila.\\
     
+    \vs
+
     Pisar la dirección de retorno y saltar a una parte del código o ejecutar código en la misma pila.\\
 
-    \pause
+\end{frame}
 
-    \textbf{Contramedidas}:
+\begin{frame}
+    \frametitle{Error de desbordamiento de arreglo en la pila}
+
+    \begin{figure}[h]
+        \centering
+        \begin{tikzpicture}
+            %% stack
+            \draw[black, very thick] (0,0)   rectangle (3,0.5);
+            \draw[black, very thick] (0,0.5) rectangle (3,1);
+            \draw[black, very thick] (0,1)   rectangle (3,1.5);
+            \draw[black, very thick] (0,1.5) rectangle (3,2);
+            \draw[black, very thick] (0,2)   rectangle (3,2.5);
+            \draw[black, very thick] (0,2.5) rectangle (3,3);
+            \draw[black, very thick] (0,3)   rectangle (3,3.5);
+            \draw[black, very thick] (0,3.5) rectangle (3,4);
+            \draw[black, very thick] (0,4)   rectangle (3,4.5);
+            \draw[black, very thick] (0,4.5) rectangle (3,5);
+            \draw[black, very thick] (0,5) rectangle (3,5.5);
+            \draw[black, very thick, fill=lightgray] (0,5.5) rectangle (3,6);
+            \draw[black, very thick, fill=lightgray] (0,6) rectangle (3,6.5);
+            \draw[black, very thick, fill=lightgray] (0,6.5) rectangle (3,7);
+
+            \node at (1.5,0.25) {\textcolor{blue}{b[0]}};
+            \node at (1.5,0.75) {\textcolor{blue}{b[1]}};
+            \node at (1.5,1.25) {\textcolor{blue}{b[2]}};
+            \node at (1.5,1.75) {\textcolor{blue}{b[3]}};
+            \node at (1.5,2.25) {\textcolor{blue}{b[4]}};
+            \node at (1.5,2.75) {\textcolor{blue}{b[5]}};
+            \node at (1.5,3.25) {\textcolor{blue}{b[6]}};
+            \node at (1.5,3.75) {\textcolor{violet}{a[0]}};
+            \node at (1.5,4.25) {\textcolor{violet}{a[1]}};
+            \node at (1.5,4.75) {\textcolor{violet}{a[2]}};
+            \node at (1.5,5.25) {\textcolor{violet}{a[3]}};
+            \node at (1.5,5.75) {\textbf{ret dir}};
+            \node at (1.5,6.25) {...};
+            \node at (1.5,6.75) {...};
+
+
+            %% stack
+            \draw[black, very thick] (6,0)   rectangle (9,0.5);
+            \draw[black, very thick] (6,0.5) rectangle (9,1);
+            \draw[black, very thick] (6,1)   rectangle (9,1.5);
+            \draw[black, very thick] (6,1.5) rectangle (9,2);
+            \draw[black, very thick] (6,2)   rectangle (9,2.5);
+            \draw[black, very thick] (6,2.5) rectangle (9,3);
+            \draw[black, very thick] (6,3)   rectangle (9,3.5);
+            \draw[black, very thick] (6,3.5) rectangle (9,4);
+            \draw[black, very thick] (6,4)   rectangle (9,4.5);
+            \draw[black, very thick] (6,4.5) rectangle (9,5);
+            \draw[black, very thick] (6,5)   rectangle (9,5.5);
+            \draw[black, very thick, fill=lightgray] (6,5.5) rectangle (9,6);
+            \draw[black, very thick, fill=lightgray] (6,6) rectangle   (9,6.5);
+            \draw[black, very thick, fill=lightgray] (6,6.5) rectangle (9,7);
+
+            \node at (7.5,0.25) {\textcolor{blue}{b[0]}};
+            \node at (7.5,0.75) {\textcolor{blue}{b[1]}};
+            \node at (7.5,1.25) {\textcolor{blue}{b[2]}};
+            \node at (7.5,1.75) {\textcolor{blue}{b[3]}};
+            \node at (7.5,2.25) {\textcolor{blue}{b[4]}};
+            \node at (7.5,2.75) {\textcolor{blue}{b[5]}};
+            \node at (7.5,3.25) {\textcolor{blue}{b[6]}};
+            \node at (7.5,3.75) {\textcolor{violet}{b[0]}};
+            \node at (7.5,4.25) {\textcolor{violet}{b[1]}};
+            \node at (7.5,4.75) {\textcolor{violet}{b[2]}};
+            \node at (7.5,5.25) {\textcolor{violet}{b[3]}};
+            \node at (7.5,5.75) {\textbf{b[4]}};
+            \node at (7.5,6.25) {b[5]};
+            \node at (7.5,6.75) {b[6]};
+
+            \draw[->, thick] (3.2,3.5) -- (5.7,3.5);
+
+            \node at (4.5,4) {strcpy(a,b)};
+
+        \end{tikzpicture}
+    \end{figure}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Contramedidas}
     \begin{itemize}
-        \item<2-> Programación fuertemente tipada y validar longitudes.
-        \item<2-> No utilizar funciones de biblioteca y diseñar de forma segura.
-        \item<2-> Minimizar los puntos de error, capacitar al personal (y tenerlo).
-        \item<2-> Verificar los retornos.
-        \item<2-> \only<2-2>{Colocar la pila como no ejecutable y agregar canarios.} \only<3->{\textcolor{blue}{Colocar la pila como no ejecutable y agregar canarios.}}
+        \item Programación fuertemente tipada y validar longitudes.
+        \item No utilizar funciones de biblioteca y diseñar de forma segura.
+        \item Minimizar los puntos de error.
+        \item Verificar los retornos.
+        \item Colocar la pila como no ejecutable y agregar canarios.
     \end{itemize}
 \end{frame}
+
+
+
 
 \begin{frame}
     \frametitle{Programación orientada a los retornos\footnote{\textit{Return-Oriented Programing}}}
-    Permite explotar errores de memoria sin inyectar código. \\
+    Permite explotar errores de memoria sin inyectar código usando el código del mismo proceso.\\
+
+    \vs
     
-    Aprovechando la instrucción \return pues realizan un salto y cambia el estado del procesador.\\
+    Aprovechando la instrucción \return pues realizan un \textbf{salto} y \textbf{cambia el estado}.\\
     
-    \pause
-    
-    \textbf{Contramedidas}:
-    \begin{itemize}
-        \item<2-> Revisar los flujos de instrucciones con retornos frecuentes. 
-        \item<2-> Validar el invariante de \textit{last-in}, \textit{first-out}.
-        \item<2-> No usar la instrucción \return.
-    \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{conjunto de \textit{Gadget}}
+    \frametitle{Conjunto de \textit{gadgets}}
     \begin{block}{Definición}
-        Secuencia de instrucciones que {\only<2->{\color{blue}}ya están presentes en el proceso}, en particular tienen permisos de ejecución. El stack es usado como lugar para almacenar el ``código''.
+        Uso de secuencia de instrucciones que {\only<2->{\color{blue}}ya están presentes en el proceso}, en particular tienen permisos de ejecución. El stack es usado como lugar para almacenar el ``código''.
     \end{block}
 
-    En la programación orientada a los retornos suelen finalizar con la instrucción \return.\vs
-
-    Permiten definir una máquina virtual.\vs
+    Las secuencias deben terminar en la instrucción \return así permiten definir una máquina virtual.\vs
     
-    \pause
+    \vs
     
-    Se puede buscar posibles \textit{Gadget} mediante algoritmos.
+    Se puede buscar posibles \textit{Gadget} de manera automatizada dendentro del código compilado.
 
 \end{frame}
 
@@ -200,18 +276,27 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Programación orientada a los retornos sin retornos\footnote{\textit{Return-Oriented Programing without Returns}}}
-    \textbf{Se asume}:
+    \frametitle{Contramedidas}
     \begin{itemize}
-        \item Puede haber implementado un modelo de lectura o ejecución exclusivos ($W \oplus X$).
-        \item Puede haber contramedidas para la programación orientada a los retornos.
-        \item Hay una aplicación vulnerable a los ataques.
+        \item Comparar la cantidad de \texttt{call} y \texttt{ret}. 
+        \item Validar el invariante de \textit{last-in}, \textit{first-out}.
+        \item No usar la instrucción \return.
     \end{itemize}
+\end{frame}
 
-    Necesitamos otras formas de tener las 2 propiedades del \return:
+\begin{frame}
+    \frametitle{Programación orientada a los retornos sin retornos\footnote{\textit{Return-Oriented Programing without Returns}}}
+    Se asume:
+
+    \begin{itemize}
+        \item Modelo de lectura o ejecución exclusivos ($W \oplus X$).
+        \item Contramedidas para la programación orientada a los retornos.
+    \end{itemize}
+    \vs
+    Necesitamos otros conjunto de instrucciones con las propiedades del \return:
     \begin{enumerate}
-        \item Trasferir el control de ejecución con un salto indirecto.
-        \item Actualizar el estado del proceso (no volver a la misma instrucción)
+        \item Trasferir el control de ejecución.
+        \item Actualizar el estado del proceso.
     \end{enumerate}
 \end{frame}
 
@@ -229,7 +314,7 @@
                 \draw[black, very thick] (0,4) rectangle (3,5);
 
                 \node at (1.5,1.5) {\texttt{...}};
-                \node at (1.5,0.5) {\textcolor{blue}{\texttt{dir}}};
+                \node at (1.5,0.5) {\textcolor{blue}{\texttt{mem}}};
 
                 
                 %SP
@@ -254,13 +339,19 @@
                 \node at (4.5,0.5) {dx};
                 \node at (6,0.5)   {\textcolor{purple}{\texttt{dir}}};
 
+                %MEM
+                \draw[black, very thick] (4,4.5) rectangle (5,5.5);
+                \draw[black, very thick] (5,4.5) rectangle (7,5.5);
+                \node at (4.5,5) {\textcolor{blue}{mem}};
+                \node at (6,5) {\textcolor{violet}{dir}};
+
                 
                 %% Código
 
                 \draw[black, very thick] (8,0) rectangle (11,1);
                 \draw[black, very thick] (8,2) rectangle (11,3);
                 \draw[black, very thick] (8,3) rectangle (11,4);
-                \draw[blue , very thick] (8,4) rectangle (11,5);
+                \draw[violet , very thick] (8,4) rectangle (11,5);
                 \draw[purple, very thick] (8,1) rectangle (11,2);
                 
                 \node at (9.5,1.5) {\texttt{pop bx}};
@@ -285,7 +376,7 @@
                 \draw[black, very thick] (0,4) rectangle (3,5);
 
                 \node at (1.5,1.5) {\texttt{...}};
-                \node at (1.5,0.5) {\textcolor{blue}{\texttt{dir}}};
+                \node at (1.5,0.5) {\textcolor{blue}{\texttt{mem}}};
 
                 
                 %SP
@@ -310,13 +401,18 @@
                 \node at (4.5,0.5) {dx};
                 \node at (6,0.5)   {\textcolor{purple}{\texttt{dir}}};
 
+                %MEM
+                \draw[black, very thick] (4,4.5) rectangle (5,5.5);
+                \draw[black, very thick] (5,4.5) rectangle (7,5.5);
+                \node at (4.5,5) {\textcolor{blue}{mem}};
+                \node at (6,5) {\textcolor{violet}{dir}};
                 
                 %% Código
 
                 \draw[black, very thick] (8,0) rectangle (11,1);
                 \draw[black, very thick] (8,2) rectangle (11,3);
                 \draw[black, very thick] (8,3) rectangle (11,4);
-                \draw[blue , very thick] (8,4) rectangle (11,5);
+                \draw[violet , very thick] (8,4) rectangle (11,5);
                 \draw[purple, very thick] (8,1) rectangle (11,2);
                 
                 \node at (9.5,1.5) {\texttt{pop bx}};
@@ -341,7 +437,7 @@
                 \draw[black, very thick] (0,4) rectangle (3,5);
 
                 \node at (1.5,1.5) {\texttt{...}};
-                \node at (1.5,0.5) {\textcolor{blue}{\texttt{dir}}};
+                \node at (1.5,0.5) {\textcolor{blue}{\texttt{mem}}};
 
                 
                 %SP
@@ -366,13 +462,19 @@
                 \node at (4.5,0.5) {dx};
                 \node at (6,0.5)   {\textcolor{purple}{\texttt{dir}}};
 
+                %MEM
+                \draw[black, very thick] (4,4.5) rectangle (5,5.5);
+                \draw[black, very thick] (5,4.5) rectangle (7,5.5);
+                \node at (4.5,5) {\textcolor{blue}{mem}};
+                \node at (6,5) {\textcolor{violet}{dir}};
+
                 
                 %% Código
 
                 \draw[black, very thick] (8,0) rectangle (11,1);
                 \draw[black, very thick] (8,2) rectangle (11,3);
                 \draw[black, very thick] (8,3) rectangle (11,4);
-                \draw[blue , very thick] (8,4) rectangle (11,5);
+                \draw[violet , very thick] (8,4) rectangle (11,5);
                 \draw[purple, very thick] (8,1) rectangle (11,2);
                 
                 \node at (9.5,1.5) {\texttt{pop bx}};
@@ -389,26 +491,24 @@
 
 \begin{frame}
     \frametitle{INTEL x86}
-    En este caso el conjunto de \textit{gadgets} proviene de \textbf{libc} y \textbf{libxul}. \\
-    
-    Que el compilador evite su aparición es complicado.\vs
+    En este caso el conjunto de \textit{gadgets} proviene de \texttt{libc} y \texttt{libul}. \\
 
     Los \textit{gadgets} son 19: \texttt{load} (\texttt{immediate}), \texttt{move}, \texttt{store}, \texttt{add} (\texttt{immediate}), \texttt{subtract}, \texttt{negate}, \texttt{and} (\texttt{immediate}), \texttt{or} (\texttt{immediate}), \texttt{xor} (\texttt{immediate}), \textit{complement}, \texttt{branch unconditional}, \texttt{branch conditional}, \texttt{set less than} y \texttt{call}. 
 \end{frame}
 
 \begin{frame}
-    \frametitle{INTEL x86 (observaciones)}
+    \frametitle{INTEL x86: Observaciones}
     \begin{itemize}
         % \item 
         \item Se busca que las operaciones actualicen valores en memoria.
-        \item  Las interacciones con memoria requieren registros intermedios, porque se usan 2 niveles de indirección.
+        % \item Las interacciones con memoria requieren registros intermedios, porque se usan 2 niveles de indirección.
         \item Las ramas condicionales actualizan valores de memoria y no el registro de instrucciones.
         \item La convención para hacer llamadas a funciones utilizada en el paper no es la actual en Linux.
     \end{itemize}
 \end{frame}
 
 \begin{frame}
-    \frametitle{INTEL x86 (\textit{gadget})}
+    \frametitle{INTEL x86: \textit{gadget} ($\le$)}
     \begin{figure}
         \centering
         \includegraphics[scale=0.2]{gadgetx86.png}
@@ -418,60 +518,473 @@
 \begin{frame}
     \frametitle{ARM}
 
-    En ARM no tenemos algo como la convención de llamada en x86. El epílogo no funciona igual, hay 16 registros los cuales se pueden modificar directamente (incluido el de instrucciones).
+   En ARM no hay una convención de llamada mediante instrucciones.
 
     \vs
 
-    La instrucción \texttt{bl} y \texttt{blx} son la que nos permiten los saltos pero solo \texttt{blx} permite saltar con direcciones en registros. Desde donde se salta se almacena en r14 (lr). 
+    Hay menos registros pero todos son de propósito general y pueden ser modificados.
+
+    \vs
+
+    No hay instrucciones \texttt{call} y \texttt{ret}. En su lugar se tienen \texttt{bl} y \texttt{blx}.
 
 \end{frame}
 
 \begin{frame}
     \frametitle{ARM}
-    \begin{columns}
-        \column{0.6\textwidth}
-            \begin{figure}
+    \only<1>{
+        \begin{figure}[h]
+        \centering
+        \begin{tikzpicture}
+            %% stack
+            \draw[black, very thick] (0,0)   rectangle (3,0.5);
+            \draw[black, very thick] (0,0.5) rectangle (3,1);
+            \draw[black, very thick] (0,1)   rectangle (3,1.5);
+            \draw[black, very thick] (0,1.5) rectangle (3,2);
+            \draw[black, very thick] (0,2)   rectangle (3,2.5);
+            \draw[black, very thick] (0,2.5) rectangle (3,3);
+            \draw[black, very thick] (0,3)   rectangle (3,3.5);
+            \draw[black, very thick] (0,3.5) rectangle (3,4);
+            \draw[black, very thick] (0,4)   rectangle (3,4.5);
+            \draw[black, very thick] (0,4.5) rectangle (3,5);
+            \draw[black, very thick] (0,5)   rectangle (3,5.5);
+            \draw[black, very thick] (0,5.5) rectangle (3,6);
+            \draw[black, very thick] (0,6)   rectangle (3,6.5);
+            \draw[black, very thick] (0,6.5) rectangle (3,7);
+
+            \node at (1.5,0.25) {\textcolor{blue}{Arg ...}};
+            \node at (1.5,0.75) {\textcolor{blue}{Arg 5}};
+            \node at (1.5,1.25) {\textcolor{blue}{Arg 4}};
+            \node at (1.5,1.75) {\textcolor{blue}{Arg 3}};
+            \node at (1.5,2.25) {\textcolor{blue}{Arg 2}};
+            \node at (1.5,2.75) {\textcolor{blue}{Arg 1}};
+            \node at (1.5,3.25) {\textcolor{blue}{Arg 0}};
+            \node at (1.5,3.75) {\textcolor{violet}{Dir 0 (ULB)}};
+            \node at (1.5,4.25) {\textcolor{violet}{Dir 1 (seq 2)}};
+            \node at (1.5,4.75) {\textcolor{violet}{Dir 2 (seq 2)}};
+            \node at (1.5,5.25) {\textcolor{violet}{Dir 3}};
+            \node at (1.5,5.75) {\textcolor{violet}{Dir 4}};
+            \node at (1.5,6.25) {\textcolor{violet}{Dir 5}};
+            \node at (1.5,6.75) {\textcolor{violet}{Dir ...}};
+
+
+            %% Code
+            \draw[black, very thick] (8,0)   rectangle (11,0.5);
+            \draw[black, very thick] (8,0.5) rectangle (11,1);
+            \draw[black, very thick] (8,1)   rectangle (11,1.5);
+            \draw[black, very thick] (8,1.5) rectangle (11,2);
+            \draw[black, very thick] (8,2)   rectangle (11,2.5);
+            \draw[black, very thick] (8,2.5) rectangle (11,3);
+            \draw[black, very thick] (8,3)   rectangle (11,3.5);
+            \draw[black, very thick] (8,3.5) rectangle (11,4);
+            \draw[black, very thick] (8,4)   rectangle (11,4.5);
+            \draw[black, very thick] (8,4.5) rectangle (11,5);
+            \draw[black, very thick] (8,5)   rectangle (11,5.5);
+            \draw[black, very thick] (8,5.5) rectangle (11,6);
+            \draw[black, very thick] (8,6) rectangle   (11,6.5);
+            \draw[black, very thick] (8,6.5) rectangle (11,7);
+
+            \node at (9.5,0.25) {\texttt{blx} r5};
+            \node at (9.5,0.75) {\texttt{ldr} r5, [r6, \#124]};
+            \node at (9.5,1.25) {\texttt{adds} r6, \#4};
+            \node at (9.5,1.75) {};
+            \node at (9.5,2.25) {\texttt{blx r3}};
+            \node at (9.5,2.75) {\texttt{ins}};
+            \node at (9.5,3.25) {\texttt{ins}};
+            \node at (9.5,3.75) {};
+            \node at (9.5,4.25) {\texttt{blx r3}};
+            \node at (9.5,4.75) {\texttt{ins}};
+            \node at (9.5,5.25) {\texttt{ins}};
+            \node at (9.5,5.75) {};
+            \node at (9.5,6.25) {};
+            \node at (9.5,6.75) {};
+
+            % Seq 1
+            \node[rotate=90] at (11.3,2.75) {Seq 1};
+            \draw[purple, very thick] (8,2) rectangle (11.6,3.5);
+
+            % Seq 2
+            \node[rotate=90] at (11.3,4.75) {Seq 2};
+            \draw[purple, very thick] (8,4) rectangle (11.6,5.5);
+
+
+            %SP
+            \draw[black, very thick] (4,4) rectangle (7,5);
+            \node at (5.5,4.5) {SP};
+            \draw[->, thick] (4,4.5) -- (3.5,4.5) |- (3,3.25);
+
+            %PC
+            \draw[black, very thick] (4,3) rectangle (7,4);
+            \node at (5.5,3.5) {PC};
+            \draw[->, thick] (7,3.5) -- (7.5,3.5) |- (8,1.25);
+
+            %R3
+            \draw[black, very thick] (4,2) rectangle (7,3);
+            \node at (5.5,2.5) {r3};
+            \draw[->, thick] (7,2.5) -- (7.5,2.5) |- (8,1.25);
+
+            %R6
+            \draw[black, very thick] (4,1) rectangle (7,2);
+            \draw[black, very thick] (5,1) rectangle (7,2);
+            \node at (4.5,1.5) {r6};
+            \node at (6,1.5)   {\textcolor{purple}{\texttt{SP - 124}}};
+
+            %R5
+            \draw[black, very thick] (4,0) rectangle (5,1);
+            \draw[black, very thick] (5,0) rectangle (7,1);
+            \node at (4.5,0.5) {r5};
+            \node at (6,0.5)   {\textcolor{purple}{\texttt{...}}};
+
+        \end{tikzpicture}
+        \end{figure}
+
+    }
+    \pause
+    \only<2>{
+
+        \begin{figure}[h]
             \centering
-                \includegraphics[scale=0.2]{ideaARM.png}
-            \end{figure}
-        \column{0.4\textwidth}
-        \only<1>{
-            \begin{center}
-                ULB
-            \end{center}
-            
-            \texttt{adds} r6, \#4;\\
-            \texttt{ldr} r5, [r6, \#124];\\
-            \texttt{blx} r5;\\
-        }
-        \pause
-        \only<2>{
-            \begin{center}
-                \textcolor{blue}{Update }\textcolor{purple}{Load }\textcolor{brown}{Branch}
-            \end{center}
-            
-            \textcolor{blue}{\texttt{adds} r6, \#4;}\\
-            \textcolor{purple}{\texttt{ldr} r5, [r6, \#124];}\\
-            \textcolor{brown}{\texttt{blx} r5;}\\
-        }
-    \end{columns}
+            \begin{tikzpicture}
+                %% stack
+                \draw[black, very thick] (0,0)   rectangle (3,0.5);
+                \draw[black, very thick] (0,0.5) rectangle (3,1);
+                \draw[black, very thick] (0,1)   rectangle (3,1.5);
+                \draw[black, very thick] (0,1.5) rectangle (3,2);
+                \draw[black, very thick] (0,2)   rectangle (3,2.5);
+                \draw[black, very thick] (0,2.5) rectangle (3,3);
+                \draw[black, very thick] (0,3)   rectangle (3,3.5);
+                \draw[black, very thick] (0,3.5) rectangle (3,4);
+                \draw[black, very thick] (0,4)   rectangle (3,4.5);
+                \draw[black, very thick] (0,4.5) rectangle (3,5);
+                \draw[black, very thick] (0,5)   rectangle (3,5.5);
+                \draw[black, very thick] (0,5.5) rectangle (3,6);
+                \draw[black, very thick] (0,6)   rectangle (3,6.5);
+                \draw[black, very thick] (0,6.5) rectangle (3,7);
+    
+                \node at (1.5,0.25) {\textcolor{blue}{Arg ...}};
+                \node at (1.5,0.75) {\textcolor{blue}{Arg 5}};
+                \node at (1.5,1.25) {\textcolor{blue}{Arg 4}};
+                \node at (1.5,1.75) {\textcolor{blue}{Arg 3}};
+                \node at (1.5,2.25) {\textcolor{blue}{Arg 2}};
+                \node at (1.5,2.75) {\textcolor{blue}{Arg 1}};
+                \node at (1.5,3.25) {\textcolor{blue}{Arg 0}};
+                \node at (1.5,3.75) {\textcolor{violet}{Dir 0 (ULB)}};
+                \node at (1.5,4.25) {\textcolor{violet}{Dir 1 (seq 2)}};
+                \node at (1.5,4.75) {\textcolor{violet}{Dir 2 (seq 2)}};
+                \node at (1.5,5.25) {\textcolor{violet}{Dir 3}};
+                \node at (1.5,5.75) {\textcolor{violet}{Dir 4}};
+                \node at (1.5,6.25) {\textcolor{violet}{Dir 5}};
+                \node at (1.5,6.75) {\textcolor{violet}{Dir ...}};
+    
+    
+                %% Code
+                \draw[black, very thick] (8,0)   rectangle (11,0.5);
+                \draw[black, very thick] (8,0.5) rectangle (11,1);
+                \draw[black, very thick] (8,1)   rectangle (11,1.5);
+                \draw[black, very thick] (8,1.5) rectangle (11,2);
+                \draw[black, very thick] (8,2)   rectangle (11,2.5);
+                \draw[black, very thick] (8,2.5) rectangle (11,3);
+                \draw[black, very thick] (8,3)   rectangle (11,3.5);
+                \draw[black, very thick] (8,3.5) rectangle (11,4);
+                \draw[black, very thick] (8,4)   rectangle (11,4.5);
+                \draw[black, very thick] (8,4.5) rectangle (11,5);
+                \draw[black, very thick] (8,5)   rectangle (11,5.5);
+                \draw[black, very thick] (8,5.5) rectangle (11,6);
+                \draw[black, very thick] (8,6) rectangle   (11,6.5);
+                \draw[black, very thick] (8,6.5) rectangle (11,7);
+    
+                \node at (9.5,0.25) {\texttt{blx} r5};
+                \node at (9.5,0.75) {\texttt{ldr} r5, [r6, \#124]};
+                \node at (9.5,1.25) {\texttt{adds} r6, \#4};
+                \node at (9.5,1.75) {};
+                \node at (9.5,2.25) {\texttt{blx r3}};
+                \node at (9.5,2.75) {\texttt{ins}};
+                \node at (9.5,3.25) {\texttt{ins}};
+                \node at (9.5,3.75) {};
+                \node at (9.5,4.25) {\texttt{blx r3}};
+                \node at (9.5,4.75) {\texttt{ins}};
+                \node at (9.5,5.25) {\texttt{ins}};
+                \node at (9.5,5.75) {};
+                \node at (9.5,6.25) {};
+                \node at (9.5,6.75) {};
+    
+                % Seq 1
+                \node[rotate=90] at (11.3,2.75) {Seq 1};
+                \draw[purple, very thick] (8,2) rectangle (11.6,3.5);
+    
+                % Seq 2
+                \node[rotate=90] at (11.3,4.75) {Seq 2};
+                \draw[purple, very thick] (8,4) rectangle (11.6,5.5);
+    
+    
+                %SP
+                \draw[black, very thick] (4,4) rectangle (7,5);
+                \node at (5.5,4.5) {SP};
+                \draw[->, thick] (4,4.5) -- (3.5,4.5) |- (3,3.25);
+    
+                %PC
+                \draw[black, very thick] (4,3) rectangle (7,4);
+                \node at (5.5,3.5) {PC};
+                \draw[->, thick] (7,3.5) -- (7.5,3.5) |- (8,3.25);
+    
+                %R3
+                \draw[black, very thick] (4,2) rectangle (7,3);
+                \node at (5.5,2.5) {r3};
+                \draw[->, thick] (7,2.5) -- (7.5,2.5) |- (8,1.25);
+    
+                %R6
+                \draw[black, very thick] (4,1) rectangle (7,2);
+                \draw[black, very thick] (5,1) rectangle (7,2);
+                \node at (4.5,1.5) {r6};
+                \node at (6,1.5)   {\textcolor{purple}{\texttt{SP - 120}}};
+    
+                %R5
+                \draw[black, very thick] (4,0) rectangle (5,1);
+                \draw[black, very thick] (5,0) rectangle (7,1);
+                \node at (4.5,0.5) {r5};
+                \node at (6,0.5)   {\textcolor{purple}{\texttt{Dir 1}}};
+    
+            \end{tikzpicture}
+        \end{figure}
+    }
+    \pause
+    \only<3>{
+
+        \begin{figure}[h]
+            \centering
+            \begin{tikzpicture}
+                %% stack
+                \draw[black, very thick] (0,0)   rectangle (3,0.5);
+                \draw[black, very thick] (0,0.5) rectangle (3,1);
+                \draw[black, very thick] (0,1)   rectangle (3,1.5);
+                \draw[black, very thick] (0,1.5) rectangle (3,2);
+                \draw[black, very thick] (0,2)   rectangle (3,2.5);
+                \draw[black, very thick] (0,2.5) rectangle (3,3);
+                \draw[black, very thick] (0,3)   rectangle (3,3.5);
+                \draw[black, very thick] (0,3.5) rectangle (3,4);
+                \draw[black, very thick] (0,4)   rectangle (3,4.5);
+                \draw[black, very thick] (0,4.5) rectangle (3,5);
+                \draw[black, very thick] (0,5)   rectangle (3,5.5);
+                \draw[black, very thick] (0,5.5) rectangle (3,6);
+                \draw[black, very thick] (0,6)   rectangle (3,6.5);
+                \draw[black, very thick] (0,6.5) rectangle (3,7);
+    
+                \node at (1.5,0.25) {\textcolor{blue}{Arg ...}};
+                \node at (1.5,0.75) {\textcolor{blue}{Arg 5}};
+                \node at (1.5,1.25) {\textcolor{blue}{Arg 4}};
+                \node at (1.5,1.75) {\textcolor{blue}{Arg 3}};
+                \node at (1.5,2.25) {\textcolor{blue}{Arg 2}};
+                \node at (1.5,2.75) {\textcolor{blue}{Arg 1}};
+                \node at (1.5,3.25) {\textcolor{blue}{Arg 0}};
+                \node at (1.5,3.75) {\textcolor{violet}{Dir 0 (ULB)}};
+                \node at (1.5,4.25) {\textcolor{violet}{Dir 1 (seq 2)}};
+                \node at (1.5,4.75) {\textcolor{violet}{Dir 2 (seq 2)}};
+                \node at (1.5,5.25) {\textcolor{violet}{Dir 3}};
+                \node at (1.5,5.75) {\textcolor{violet}{Dir 4}};
+                \node at (1.5,6.25) {\textcolor{violet}{Dir 5}};
+                \node at (1.5,6.75) {\textcolor{violet}{Dir ...}};
+    
+    
+                %% Code
+                \draw[black, very thick] (8,0)   rectangle (11,0.5);
+                \draw[black, very thick] (8,0.5) rectangle (11,1);
+                \draw[black, very thick] (8,1)   rectangle (11,1.5);
+                \draw[black, very thick] (8,1.5) rectangle (11,2);
+                \draw[black, very thick] (8,2)   rectangle (11,2.5);
+                \draw[black, very thick] (8,2.5) rectangle (11,3);
+                \draw[black, very thick] (8,3)   rectangle (11,3.5);
+                \draw[black, very thick] (8,3.5) rectangle (11,4);
+                \draw[black, very thick] (8,4)   rectangle (11,4.5);
+                \draw[black, very thick] (8,4.5) rectangle (11,5);
+                \draw[black, very thick] (8,5)   rectangle (11,5.5);
+                \draw[black, very thick] (8,5.5) rectangle (11,6);
+                \draw[black, very thick] (8,6) rectangle   (11,6.5);
+                \draw[black, very thick] (8,6.5) rectangle (11,7);
+    
+                \node at (9.5,0.25) {\texttt{blx} r5};
+                \node at (9.5,0.75) {\texttt{ldr} r5, [r6, \#124]};
+                \node at (9.5,1.25) {\texttt{adds} r6, \#4};
+                \node at (9.5,1.75) {};
+                \node at (9.5,2.25) {\texttt{blx r3}};
+                \node at (9.5,2.75) {\texttt{ins}};
+                \node at (9.5,3.25) {\texttt{ins}};
+                \node at (9.5,3.75) {};
+                \node at (9.5,4.25) {\texttt{blx r3}};
+                \node at (9.5,4.75) {\texttt{ins}};
+                \node at (9.5,5.25) {\texttt{ins}};
+                \node at (9.5,5.75) {};
+                \node at (9.5,6.25) {};
+                \node at (9.5,6.75) {};
+    
+                % Seq 1
+                \node[rotate=90] at (11.3,2.75) {Seq 1};
+                \draw[purple, very thick] (8,2) rectangle (11.6,3.5);
+    
+                % Seq 2
+                \node[rotate=90] at (11.3,4.75) {Seq 2};
+                \draw[purple, very thick] (8,4) rectangle (11.6,5.5);
+    
+    
+                %SP
+                \draw[black, very thick] (4,4) rectangle (7,5);
+                \node at (5.5,4.5) {SP};
+                \draw[->, thick] (4,4.5) -- (3.5,4.5) |- (3,3.25);
+    
+                %PC
+                \draw[black, very thick] (4,3) rectangle (7,4);
+                \node at (5.5,3.5) {PC};
+                \draw[->, thick] (7,3.5) -- (7.5,3.5) |- (8,1.25);
+    
+                %R3
+                \draw[black, very thick] (4,2) rectangle (7,3);
+                \node at (5.5,2.5) {r3};
+                \draw[->, thick] (7,2.5) -- (7.5,2.5) |- (8,1.25);
+    
+                %R6
+                \draw[black, very thick] (4,1) rectangle (7,2);
+                \draw[black, very thick] (5,1) rectangle (7,2);
+                \node at (4.5,1.5) {r6};
+                \node at (6,1.5)   {\textcolor{purple}{\texttt{SP - 120}}};
+    
+                %R5
+                \draw[black, very thick] (4,0) rectangle (5,1);
+                \draw[black, very thick] (5,0) rectangle (7,1);
+                \node at (4.5,0.5) {r5};
+                \node at (6,0.5)   {\textcolor{purple}{\texttt{Dir 1}}};
+    
+            \end{tikzpicture}
+        \end{figure}
+
+    }
+    \pause
+    \only<4>{
+
+        \begin{figure}[h]
+            \centering
+            \begin{tikzpicture}
+                %% stack
+                \draw[black, very thick] (0,0)   rectangle (3,0.5);
+                \draw[black, very thick] (0,0.5) rectangle (3,1);
+                \draw[black, very thick] (0,1)   rectangle (3,1.5);
+                \draw[black, very thick] (0,1.5) rectangle (3,2);
+                \draw[black, very thick] (0,2)   rectangle (3,2.5);
+                \draw[black, very thick] (0,2.5) rectangle (3,3);
+                \draw[black, very thick] (0,3)   rectangle (3,3.5);
+                \draw[black, very thick] (0,3.5) rectangle (3,4);
+                \draw[black, very thick] (0,4)   rectangle (3,4.5);
+                \draw[black, very thick] (0,4.5) rectangle (3,5);
+                \draw[black, very thick] (0,5)   rectangle (3,5.5);
+                \draw[black, very thick] (0,5.5) rectangle (3,6);
+                \draw[black, very thick] (0,6)   rectangle (3,6.5);
+                \draw[black, very thick] (0,6.5) rectangle (3,7);
+    
+                \node at (1.5,0.25) {\textcolor{blue}{Arg ...}};
+                \node at (1.5,0.75) {\textcolor{blue}{Arg 5}};
+                \node at (1.5,1.25) {\textcolor{blue}{Arg 4}};
+                \node at (1.5,1.75) {\textcolor{blue}{Arg 3}};
+                \node at (1.5,2.25) {\textcolor{blue}{Arg 2}};
+                \node at (1.5,2.75) {\textcolor{blue}{Arg 1}};
+                \node at (1.5,3.25) {\textcolor{blue}{Arg 0}};
+                \node at (1.5,3.75) {\textcolor{violet}{Dir 0 (ULB)}};
+                \node at (1.5,4.25) {\textcolor{violet}{Dir 1 (seq 2)}};
+                \node at (1.5,4.75) {\textcolor{violet}{Dir 2 (seq 2)}};
+                \node at (1.5,5.25) {\textcolor{violet}{Dir 3}};
+                \node at (1.5,5.75) {\textcolor{violet}{Dir 4}};
+                \node at (1.5,6.25) {\textcolor{violet}{Dir 5}};
+                \node at (1.5,6.75) {\textcolor{violet}{Dir ...}};
+    
+    
+                %% Code
+                \draw[black, very thick] (8,0)   rectangle (11,0.5);
+                \draw[black, very thick] (8,0.5) rectangle (11,1);
+                \draw[black, very thick] (8,1)   rectangle (11,1.5);
+                \draw[black, very thick] (8,1.5) rectangle (11,2);
+                \draw[black, very thick] (8,2)   rectangle (11,2.5);
+                \draw[black, very thick] (8,2.5) rectangle (11,3);
+                \draw[black, very thick] (8,3)   rectangle (11,3.5);
+                \draw[black, very thick] (8,3.5) rectangle (11,4);
+                \draw[black, very thick] (8,4)   rectangle (11,4.5);
+                \draw[black, very thick] (8,4.5) rectangle (11,5);
+                \draw[black, very thick] (8,5)   rectangle (11,5.5);
+                \draw[black, very thick] (8,5.5) rectangle (11,6);
+                \draw[black, very thick] (8,6) rectangle   (11,6.5);
+                \draw[black, very thick] (8,6.5) rectangle (11,7);
+    
+                \node at (9.5,0.25) {\texttt{blx} r5};
+                \node at (9.5,0.75) {\texttt{ldr} r5, [r6, \#124]};
+                \node at (9.5,1.25) {\texttt{adds} r6, \#4};
+                \node at (9.5,1.75) {};
+                \node at (9.5,2.25) {\texttt{blx r3}};
+                \node at (9.5,2.75) {\texttt{ins}};
+                \node at (9.5,3.25) {\texttt{ins}};
+                \node at (9.5,3.75) {};
+                \node at (9.5,4.25) {\texttt{blx r3}};
+                \node at (9.5,4.75) {\texttt{ins}};
+                \node at (9.5,5.25) {\texttt{ins}};
+                \node at (9.5,5.75) {};
+                \node at (9.5,6.25) {};
+                \node at (9.5,6.75) {};
+    
+                % Seq 1
+                \node[rotate=90] at (11.3,2.75) {Seq 1};
+                \draw[purple, very thick] (8,2) rectangle (11.6,3.5);
+    
+                % Seq 2
+                \node[rotate=90] at (11.3,4.75) {Seq 2};
+                \draw[purple, very thick] (8,4) rectangle (11.6,5.5);
+    
+    
+                %SP
+                \draw[black, very thick] (4,4) rectangle (7,5);
+                \node at (5.5,4.5) {SP};
+                \draw[->, thick] (4,4.5) -- (3.5,4.5) |- (3,3.25);
+    
+                %PC
+                \draw[black, very thick] (4,3) rectangle (7,4);
+                \node at (5.5,3.5) {PC};
+                \draw[->, thick] (7,3.5) -- (7.5,3.5) |- (8,5.25);
+    
+                %R3
+                \draw[black, very thick] (4,2) rectangle (7,3);
+                \node at (5.5,2.5) {r3};
+                \draw[->, thick] (7,2.5) -- (7.5,2.5) |- (8,1.25);
+    
+                %R6
+                \draw[black, very thick] (4,1) rectangle (7,2);
+                \draw[black, very thick] (5,1) rectangle (7,2);
+                \node at (4.5,1.5) {r6};
+                \node at (6,1.5)   {\textcolor{purple}{\texttt{SP - 116}}};
+    
+                %R5
+                \draw[black, very thick] (4,0) rectangle (5,1);
+                \draw[black, very thick] (5,0) rectangle (7,1);
+                \node at (4.5,0.5) {r5};
+                \node at (6,0.5)   {\textcolor{purple}{\texttt{Dir 2}}};
+    
+            \end{tikzpicture}
+        \end{figure}
+
+    }
+    
 \end{frame}
 
 \begin{frame}
     \frametitle{ARM (observaciones)}
     \begin{itemize}
         \item Las instrucciones deben terminar con \texttt{blx}.
-        \item Se construyeron los \textit{gargets} con \textbf{libc} y \textbf{libwebcore}
+        \item Se construyeron los \textit{gadgets} con \textbf{libc} y \textbf{libwebcore}
         \item Se requieren 3 registros en lugar de 1.
-        \item Por limitaciones de la arquitectura hacen que manejar memoria sea más complejo.
-        \item La forma de realizar operaciones aritmético-lógicas es idéntica, igualmente los condicionales.
-        \item Este ataque no puede ser detectado por \textit{validadores de direcciones de retorno}\footnote{return address checker}. No se modifica la pila.
+        % \item Por limitaciones de la arquitectura hacen que manejar memoria sea más complejo.
+        % \item La forma de realizar operaciones aritmético-lógicas es idéntica, igualmente los condicionales.
     \end{itemize}
+    
+    % dar cuales son las cosas que no se pueden detectar
+    Este ataque no puede detectarse por los métodos para detectar retornos.
     
 \end{frame}
 
 \begin{frame}
-    \frametitle{ARM (\textit{gadget})}
+    \frametitle{ARM \textit{gadget} ($\le$)}
     \begin{figure}
         \centering
         \includegraphics[scale=0.3]{gadgetARM.png}
@@ -479,45 +992,31 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Ataques Concretos}
-    \only<1>{
-        \textbf{Linux Intel x86}
-        \begin{columns}
-        \column{0.5\textwidth}
-        \begin{figure}
-            \centering
-            \includegraphics[scale=0.15]{LinuxIntel86.png}
-        \end{figure}
-        \column{0.5\textwidth}
-            Se dá un \textit{shellcode egg} a este programa con: 
-            \begin{itemize}
-                \item El programa (ROPWR).
-                \item Los datos (programa a ejecutar).
-                \item el catálogo de instrucciones (doble indirección).
-                \item Datos para pisar \texttt{foo}.
-            \end{itemize}
-        \end{columns}
-    }
-    \pause
-    \only<2>{
-        \textbf{Google Android ARM}
-        \begin{columns}
-        \column{0.5\textwidth}
-        \begin{figure}
-            \centering
-            \includegraphics[scale=0.15]{GoogleAndroidARM.png}
-        \end{figure}
-        \column{0.5\textwidth}
-            Obtener una shell en el emulador para el desarrollador de android.\\
-            Se utiliza el mismo código que antes a traves de una interfaz de java para C.
-        \end{columns}
-    }
+    \frametitle{Ataques Concretos: Linux Intel x86}
+    
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\textwidth]{LinuxIntel86.png}
+    \end{figure}
+        
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ataques Concretos: Google Android ARM}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{GoogleAndroidARM.png}
+    \end{figure}
+        
+    Obtener una shell en el emulador para el desarrollador de android.\\
+    Se utiliza el mismo código a traves de una interfaz de java para C.
 \end{frame}
 
 \begin{frame}
     \frametitle{Conclusiones}
     \begin{itemize}
-        \item Encontrar un trampolín basta para construir a su alrededor un conjunto de \textit{gargets}.
+        \item Encontrar un trampolín basta para construir a su alrededor un conjunto de \textit{gadgets}.
         \item Esta nueva forma de programar es un problema grave de seguridad.
         \item Las posibles mitigaciones pueden tener una gran penalidad.
     \end{itemize}
