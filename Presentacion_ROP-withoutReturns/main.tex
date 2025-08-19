@@ -172,20 +172,6 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Conjunto de \textit{gadgets}}
-    \begin{block}{Definición}
-        Uso de secuencia de instrucciones que {\only<2->{\color{blue}}ya están presentes en el proceso}, en particular tienen permisos de ejecución. El stack es usado como lugar para almacenar el ``código''.
-    \end{block}
-
-    Las secuencias deben terminar en la instrucción \return así permiten definir una máquina virtual.\vs
-    
-    \vs
-    
-    Se puede buscar posibles \textit{Gadget} de manera automatizada dendentro del código compilado.
-
-\end{frame}
-
-\begin{frame}
     \frametitle{Convención de llamada}
     \only<1>{
         \begin{figure}[h]
@@ -273,6 +259,20 @@
             \caption{Estado de los registro para la pila e instrucciones después de un \return.}
         \end{figure}
     }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Conjunto de \textit{gadgets}}
+    \begin{block}{Definición}
+        Uso de secuencia de instrucciones que ya están presentes en el proceso, en particular tienen permisos de ejecución. El stack es usado como lugar para almacenar el ``código''.
+    \end{block}
+
+    Las secuencias deben terminar en la instrucción \return así permiten definir una máquina virtual.\vs
+    
+    \vs
+    
+    Se pueden buscar posibles \textit{Gadget} de manera automatizada dentro del código compilado.
+
 \end{frame}
 
 \begin{frame}
@@ -393,7 +393,7 @@
                 \draw[black, very thick] (4,1) rectangle (5,2);
                 \draw[black, very thick] (5,1) rectangle (7,2);
                 \node at (4.5,1.5) {bx};
-                \node at (6,1.5)   {\textcolor{blue}{\texttt{dir}}};
+                \node at (6,1.5)   {\textcolor{blue}{\texttt{mem}}};
 
                 %DX
                 \draw[black, very thick] (4,0) rectangle (5,1);
@@ -454,7 +454,7 @@
                 \draw[black, very thick] (4,1) rectangle (5,2);
                 \draw[black, very thick] (5,1) rectangle (7,2);
                 \node at (4.5,1.5) {bx};
-                \node at (6,1.5)   {\textcolor{blue}{\texttt{dir}}};
+                \node at (6,1.5)   {\textcolor{blue}{\texttt{mem}}};
 
                 %DX
                 \draw[black, very thick] (4,0) rectangle (5,1);
@@ -491,7 +491,9 @@
 
 \begin{frame}
     \frametitle{INTEL x86}
-    En este caso el conjunto de \textit{gadgets} proviene de \texttt{libc} y \texttt{libul}. \\
+    En este caso el conjunto de \textit{gadgets} proviene de libc y libul. \\
+
+    \vs
 
     Los \textit{gadgets} son 19: \texttt{load} (\texttt{immediate}), \texttt{move}, \texttt{store}, \texttt{add} (\texttt{immediate}), \texttt{subtract}, \texttt{negate}, \texttt{and} (\texttt{immediate}), \texttt{or} (\texttt{immediate}), \texttt{xor} (\texttt{immediate}), \textit{complement}, \texttt{branch unconditional}, \texttt{branch conditional}, \texttt{set less than} y \texttt{call}. 
 \end{frame}
@@ -560,7 +562,7 @@
             \node at (1.5,2.75) {\textcolor{blue}{Arg 1}};
             \node at (1.5,3.25) {\textcolor{blue}{Arg 0}};
             \node at (1.5,3.75) {\textcolor{violet}{Dir 0 (ULB)}};
-            \node at (1.5,4.25) {\textcolor{violet}{Dir 1 (seq 2)}};
+            \node at (1.5,4.25) {\textcolor{violet}{Dir 1 (seq 1)}};
             \node at (1.5,4.75) {\textcolor{violet}{Dir 2 (seq 2)}};
             \node at (1.5,5.25) {\textcolor{violet}{Dir 3}};
             \node at (1.5,5.75) {\textcolor{violet}{Dir 4}};
@@ -669,7 +671,7 @@
                 \node at (1.5,2.75) {\textcolor{blue}{Arg 1}};
                 \node at (1.5,3.25) {\textcolor{blue}{Arg 0}};
                 \node at (1.5,3.75) {\textcolor{violet}{Dir 0 (ULB)}};
-                \node at (1.5,4.25) {\textcolor{violet}{Dir 1 (seq 2)}};
+                \node at (1.5,4.25) {\textcolor{violet}{Dir 1 (seq 1)}};
                 \node at (1.5,4.75) {\textcolor{violet}{Dir 2 (seq 2)}};
                 \node at (1.5,5.25) {\textcolor{violet}{Dir 3}};
                 \node at (1.5,5.75) {\textcolor{violet}{Dir 4}};
@@ -777,7 +779,7 @@
                 \node at (1.5,2.75) {\textcolor{blue}{Arg 1}};
                 \node at (1.5,3.25) {\textcolor{blue}{Arg 0}};
                 \node at (1.5,3.75) {\textcolor{violet}{Dir 0 (ULB)}};
-                \node at (1.5,4.25) {\textcolor{violet}{Dir 1 (seq 2)}};
+                \node at (1.5,4.25) {\textcolor{violet}{Dir 1 (seq 1)}};
                 \node at (1.5,4.75) {\textcolor{violet}{Dir 2 (seq 2)}};
                 \node at (1.5,5.25) {\textcolor{violet}{Dir 3}};
                 \node at (1.5,5.75) {\textcolor{violet}{Dir 4}};
@@ -886,7 +888,7 @@
                 \node at (1.5,2.75) {\textcolor{blue}{Arg 1}};
                 \node at (1.5,3.25) {\textcolor{blue}{Arg 0}};
                 \node at (1.5,3.75) {\textcolor{violet}{Dir 0 (ULB)}};
-                \node at (1.5,4.25) {\textcolor{violet}{Dir 1 (seq 2)}};
+                \node at (1.5,4.25) {\textcolor{violet}{Dir 1 (seq 1)}};
                 \node at (1.5,4.75) {\textcolor{violet}{Dir 2 (seq 2)}};
                 \node at (1.5,5.25) {\textcolor{violet}{Dir 3}};
                 \node at (1.5,5.75) {\textcolor{violet}{Dir 4}};
@@ -972,12 +974,13 @@
     \frametitle{ARM (observaciones)}
     \begin{itemize}
         \item Las instrucciones deben terminar con \texttt{blx}.
-        \item Se construyeron los \textit{gadgets} con \textbf{libc} y \textbf{libwebcore}
+        \item Se construyeron los \textit{gadgets} con libc y libwebcore
         \item Se requieren 3 registros en lugar de 1.
         % \item Por limitaciones de la arquitectura hacen que manejar memoria sea más complejo.
         % \item La forma de realizar operaciones aritmético-lógicas es idéntica, igualmente los condicionales.
     \end{itemize}
     
+    \vs 
     % dar cuales son las cosas que no se pueden detectar
     Este ataque no puede detectarse por los métodos para detectar retornos.
     
@@ -1010,7 +1013,7 @@
     \end{figure}
         
     Obtener una shell en el emulador para el desarrollador de android.\\
-    Se utiliza el mismo código a traves de una interfaz de java para C.
+    Se utiliza el mismo código a través de una interfaz de java para C.
 \end{frame}
 
 \begin{frame}
